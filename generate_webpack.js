@@ -75,21 +75,21 @@ let newTsconfig = tsconfig.replace(/\.\/dist/g, "./browser");
 newTsconfig = newTsconfig.replace(/gramjs/g, "tempBrowser");
 fs.writeFileSync("tsconfig.json", newTsconfig, "utf8");
 const packageJSON = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const oldValueStorage = packageJSON.dependencies["node-localstorage"];
-const oldValueSocks = packageJSON.dependencies["socks"];
-delete packageJSON.dependencies["node-localstorage"];
-delete packageJSON.dependencies["socks"];
+// const oldValueStorage = packageJSON.dependencies["node-localstorage"];
+// const oldValueSocks = packageJSON.dependencies["socks"];
+// delete packageJSON.dependencies["node-localstorage"];
+// delete packageJSON.dependencies["socks"];
 fs.writeFileSync(
   "package.json",
   JSON.stringify(packageJSON, null, "  "),
   "utf8"
 );
 
-const npmi = exec("npm i");
-npmi.on("close", (code) => {
-  if (code !== 0) {
-    throw new Error("Error happened " + code);
-  }
+// const npmi = exec("npm i");
+// npmi.on("close", (code) => {
+//   if (code !== 0) {
+//     throw new Error("Error happened " + code);
+//   }
 
   const tsc = exec("npx tsc");
   tsc.stdout.on("data", function (data) {
@@ -115,8 +115,8 @@ npmi.on("close", (code) => {
     newTsconfig = newTsconfig.replace(/tempBrowser/g, "gramjs");
     fs.writeFileSync("tsconfig.json", newTsconfig, "utf8");
     const packageJSON = JSON.parse(fs.readFileSync("package.json", "utf8"));
-    packageJSON.dependencies["node-localstorage"] = oldValueStorage;
-    packageJSON.dependencies["socks"] = oldValueSocks;
+    // packageJSON.dependencies["node-localstorage"] = oldValueStorage;
+    // packageJSON.dependencies["socks"] = oldValueSocks;
     fs.writeFileSync(
       "package.json",
       JSON.stringify(packageJSON, null, "  "),
@@ -139,4 +139,4 @@ npmi.on("close", (code) => {
       );
     });
   });
-});
+// });
